@@ -3,7 +3,11 @@
 <div class="legend">
   <%= image_tag "ideal_logo.gif", :id => 'ideal' %>&nbsp;iDeal
 </div>
-
+<div id="banklist" class="clearfix">
 <%for bank in payment_method.banklist %>
-  <%=radio_button_tag "#{param_prefix}[bank_id]", bank.bank_id%> <%=bank.bank_name%>
+  <p class="field">
+    <%=radio_button_tag "#{param_prefix}[bank_id]", bank.bank_id%>
+    <%=label_tag "#{param_prefix}[bank_id]", bank.bank_name%>
+  </p>
 <%end%>
+</div>
