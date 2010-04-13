@@ -17,10 +17,21 @@ class MollieIdealExtension < Spree::Extension
     #   helper YourHelper
     # end
     BillingIntegration::MollieIdeal.register
+
+    Checkout.class_eval do
     
-    checkout_state_machine = Checkout.state_machines[:state]
-    checkout_state_machine.event :next do
-      transition :to => 'confirm', :from => 'payment'
+      # checkout state machine (see http://github.com/pluginaweek/state_machine/tree/master for details)
+      state_machine :initial => 'address' do
+        after_transition :to => 'complete', :do => :complete_order
+        before_transition :to => 'complete', :do => :process_payment
+        event :next do
+          transition :to => 'delivery', :from  => 'address'
+          transition :to => 'payment', :from => 'delivery'
+          transition :to => 'confirm', :from => 'payment'
+          transition :to => 'complete', :from => 'confirm'
+          transition :to => 'complete', :from => 'payment'
+        end
+      end
     end
     
     #open up CheckoutsController so I can do a proper redirection.
