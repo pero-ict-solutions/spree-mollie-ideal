@@ -13,11 +13,11 @@ class MollieIdealExtension < Spree::Extension
   
   def activate
     # make your helper avaliable in all views
-    # Spree::BaseController.class_eval do
-    #   helper YourHelper
-    # end
+    Spree::BaseController.class_eval do
+      helper MollieIdealHelper
+    end
+    
     BillingIntegration::MollieIdeal.register
-
     Checkout.class_eval do
     
       # checkout state machine (see http://github.com/pluginaweek/state_machine/tree/master for details)
