@@ -1,7 +1,8 @@
-<%= image_tag "ideal_logo", :id => 'ideal' %>
 <% param_prefix = "payment_source[#{payment_method.id}]" %>
 
-<h3>Selecteer uw bank:</h3>
+<div class="legend">
+  <%= image_tag "ideal_logo.gif", :id => 'ideal' %>&nbsp;iDeal
+</div>
 
 <%for bank in payment_method.banklist %>
   <%=radio_button_tag "#{param_prefix}[bank_id]", bank.bank_id%> <%=bank.bank_name%>
