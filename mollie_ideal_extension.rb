@@ -7,9 +7,8 @@ class MollieIdealExtension < Spree::Extension
   url "http://yourwebsite.com/mollie_ideal"
 
   # Please use mollie_ideal/config/routes.rb instead for extension routes.
-
   def self.require_gems(config)
-    config.gem "mollie-ideal", :version => '0.1.0'
+    config.gem "mollie-ideal", :version => '0.1.0', :lib => "mollie-ideal"
   end
   
   def activate
