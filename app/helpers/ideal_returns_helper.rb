@@ -1,0 +1,2 @@
+module IdealReturnsHelper
+end
