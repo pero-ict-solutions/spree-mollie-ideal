@@ -7,10 +7,12 @@ class IdealReturnsController < ApplicationController
     order = payment.payments.first.order
     if order.state == "paid"
       flash[:commerce_tracking] = I18n.t("notice_messages.track_me_in_GA")
+      session[:order_id] = nil
       redirect_to order_url(payment.payments.first.order, {:checkout_complete => true, :order_token => order.token})
     else
       if payment.is_payed?
         payment.payments.first.finalize!
+        session[:order_id] = nil
         flash[:commerce_tracking] = I18n.t("notice_messages.track_me_in_GA")
         redirect_to order_url(payment.payments.first.order, {:checkout_complete => true, :order_token => order.token})
       else
