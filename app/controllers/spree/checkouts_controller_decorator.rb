@@ -1,5 +1,5 @@
 module Spree
-  CheckoutsController.class_eval do
+  CheckoutController.class_eval do
     def complete_checkout
       complete_order
       order_params = {:checkout_complete => true}
