@@ -3,7 +3,7 @@ module Spree
     def index
       Rails.logger.info "[IDEAL] GET return received from mollie"
       transaction_id = params[:transaction_id]
-      payment = IdealPayment.find_by_transaction_id(transaction_id)
+      payment = ::Spree::IdealPayment.find_by_transaction_id(transaction_id)
       order = payment.payments.first.order
       if order.state == "paid"
         flash[:commerce_tracking] = I18n.t("notice_messages.track_me_in_GA")

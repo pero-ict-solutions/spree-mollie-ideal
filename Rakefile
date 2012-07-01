@@ -27,4 +27,3 @@ task :test_app do
   ENV['LIB_NAME'] = 'spree_mollie'
   Rake::Task['common:test_app'].invoke
 end
-
