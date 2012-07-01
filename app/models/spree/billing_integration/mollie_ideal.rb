@@ -1,5 +1,5 @@
 class Spree::BillingIntegration::MollieIdeal < Spree::BillingIntegration
-  include Rails.application.routes.url_helpers
+  include Spree::Core::Engine.routes.url_helpers
   preference :partner_id, :string
   preference :hostname, :string
   preference :callback_url, :string
@@ -18,15 +18,17 @@ class Spree::BillingIntegration::MollieIdeal < Spree::BillingIntegration
     description = "Betaling voor order nummer : #{'test'}"
 
     reporturl = ideal_callbacks_url
-    if preferred_callback_url
-      reporturl = preferred_callback_url
-    end
-    ideal_returns_url = "default-store.dev/ideal_returns"
-
+    #if preferred_callback_url
+    #  reporturl = preferred_callback_url
+    #end
     response = ::Mollie::Ideal.prepare_payment(payment.bank_id,amount,description, ideal_returns_url ,reporturl)
     self.transaction_id = response.transaction_id
     self.payment_redirect_url = response.URL
     self.save
+  end
+
+  def payment_source_class
+    Spree::IdealPayment
   end
 
 end
