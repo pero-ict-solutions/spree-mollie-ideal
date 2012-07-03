@@ -18,7 +18,7 @@ module Spree
 
       config.after_initialize do |app|
         app.config.spree.payment_methods += [
-          Spree::BillingIntegration::MollieIdeal
+          Spree::PaymentMethod::MollieIdeal
          ]
       end
 

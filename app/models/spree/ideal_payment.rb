@@ -1,9 +1,6 @@
 module Spree
   class IdealPayment < ActiveRecord::Base
-    #include ActionController::UrlWriter
     attr_accessible :bank_id
-
-    has_many :payments, :as => :source
 
     class << self
       def current_payment_method
@@ -16,27 +13,18 @@ module Spree
       authorize(amount, payment)
     end
 
+    def completed?
+      true
+    end
+
+    def success?
+      true
+    end
+
     def is_payed?
       Mollie.partner_id = IdealPayment.current_payment_method.preferred_partner_id
       Mollie::Ideal.testmode = IdealPayment.current_payment_method.preferred_test_mode
       Mollie::Ideal.check_order(transaction_id).payed == "true"
-    end
-
-    def authorize(amount, payment, options)
-      default_url_options[:host] = IdealPayment.current_payment_method.preferred_hostname
-      Mollie::Ideal.testmode = IdealPayment.current_payment_method.preferred_test_mode
-      Mollie.partner_id = payment.payment_method.preferred_partner_id
-      description = "Betaling voor order nummer : #{payment.order.number}"
-
-      reporturl = ideal_callbacks_url
-      if IdealPayment.current_payment_method.preferred_callback_url
-        reporturl = IdealPayment.current_payment_method.preferred_callback_url
-      end
-
-      response = Mollie::Ideal.prepare_payment(self.bank_id,amount,description, ideal_returns_url ,reporturl)
-      self.transaction_id = response.transaction_id
-      self.payment_redirect_url = response.URL
-      self.save
     end
 
     # fix for Payment#payment_profiles_supported?
