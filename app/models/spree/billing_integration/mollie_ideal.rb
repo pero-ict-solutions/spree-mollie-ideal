@@ -22,9 +22,10 @@ class Spree::BillingIntegration::MollieIdeal < Spree::BillingIntegration
     #  reporturl = preferred_callback_url
     #end
     response = ::Mollie::Ideal.prepare_payment(payment.bank_id,amount,description, ideal_returns_url ,reporturl)
-    self.transaction_id = response.transaction_id
-    self.payment_redirect_url = response.URL
-    self.save
+    payment.transaction_id = response.transaction_id
+    payment.payment_redirect_url = response.URL
+    payment.save
+
   end
 
   def payment_source_class
