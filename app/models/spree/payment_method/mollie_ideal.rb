@@ -53,14 +53,5 @@ module Spree
     def source_required?
       true
     end
-
-    def provider_class
-      self.class
-    end
-
-    # fix for Payment#payment_profiles_supported?
-    def payment_gateway
-      false
-    end
   end
 end
