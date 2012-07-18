@@ -5,7 +5,7 @@ module Spree
       transaction_id = params[:transaction_id]
       payment = ::Spree::IdealPayment.find_by_transaction_id(transaction_id)
       if payment.is_payed?
-        payment.payments.first.finalize!
+        payment.payments.first.complete!
       end
       render :text => "OK"
     end

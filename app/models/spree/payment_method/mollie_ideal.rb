@@ -9,18 +9,13 @@ module Spree
 
     has_many :payments, :as => :source
 
-    def actions
-      %w{capture}
-    end
-
     def banklist
       ::Mollie::Ideal.testmode = preferred_test_mode
       ::Mollie::Ideal.banklist
     end
 
-    # Indicates whether its possible to capture the payment
-    def can_capture?(payment)
-      ['checkout', 'pending'].include?(payment.state)
+    def authorize(amount, payment, options)
+      capture(amount, payment, options)
     end
 
     def purchase(amount, payment, options)
@@ -50,8 +45,5 @@ module Spree
       Spree::IdealPayment
     end
 
-    def source_required?
-      true
-    end
   end
 end
